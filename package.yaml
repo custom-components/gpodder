@@ -1,0 +1,19 @@
+author:
+  email: iantrich@gmail.com
+  homepage: https://www.iantrich.com
+  name: Ian Richardson
+description: 🎧 gPodder component
+files:
+- custom_components/gpodder/__init__.py
+- custom_components/gpodder/sensor.py
+- custom_components/gpodder/const.py
+keywords:
+- gpodder
+- podcast
+- homeassistant
+- home-assistant
+- custom-component
+- python
+license: MIT License
+name: gpodder
+type: component

@@ -1,0 +1,85 @@
+# 🎧 gPodder [WIP]
+
+[![GitHub Release][releases-shield]][releases]
+[![GitHub Activity][commits-shield]][commits]
+[![custom_updater][customupdaterbadge]][customupdater]
+[![License][license-shield]](LICENSE.md)
+
+![Project Maintenance][maintenance-shield]
+[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
+
+[![Discord][discord-shield]][discord]
+[![Community Forum][forum-shield]][forum]
+
+_Component to integrate with [gPodder][gpodder]._
+
+**This component will set up the following platforms.**
+
+Platform | Description
+-- | --
+`sensor` | Show info from gPodder API and expose services.
+
+## Installation
+
+1. Using you tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
+2. If you do not have a `custom_components` directory (folder) there, you need to create it.
+3. In the `custom_components` directory (folder) create a new folder called `blueprint`.
+4. Download _all_ the files from the `custom_components/gpodder/` directory (folder) in this repository.
+5. Place the files you downloaded in the new directory (folder) you created.
+6. Add `gpodder:` to your HA configuration.
+
+Using your HA configuration directory (folder) as a starting point you should now also have this:
+
+```text
+custom_components/gpodder/__init__.py
+custom_components/gpodder/const.py
+custom_components/gpodder/sensor.py
+```
+
+## Example configuration.yaml
+
+```yaml
+gpodder:
+  username: iantrich
+  password: password
+  sensor:
+    - enabled: true
+      name: My custom name
+```
+
+## Configuration options
+
+Key | Type | Required | Description
+-- | -- | -- | --
+`username` | `string` | `True` | gPodder username
+`password` | `string` | `True` | gPodder password
+`sensor` | `list` | `False` | Configuration for the `sensor` platform.
+
+### Configuration options for `sensor` list
+
+Key | Type | Required | Default | Description
+-- | -- | -- | -- | --
+`enabled` | `boolean` | `False` | `True` | Boolean to enable/disable the platform.
+`name` | `string` | `False` | `blueprint` | Custom name for the entity.
+
+## Contributions are welcome!
+
+If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
+
+***
+
+[buymecoffee]: https://www.buymeacoffee.com/iantrich
+[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-blue.svg?style=for-the-badge
+[commits-shield]: https://img.shields.io/github/commit-activity/y/custom-components/gpodder.svg?style=for-the-badge
+[commits]: https://github.com/custom-components/gpodder/commits/master
+[customupdater]: https://github.com/custom-components/custom_updater
+[customupdaterbadge]: https://img.shields.io/badge/custom__updater-true-success.svg?style=for-the-badge
+[discord]: https://discord.gg/Qa5fW2R
+[discord-shield]: https://img.shields.io/discord/478094546522079232.svg?style=for-the-badge
+[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
+[forum]: https://community.home-assistant.io
+[gpodder]: https://gpodder.net/
+[license-shield]: https://img.shields.io/github/license/custom-components/gpodder.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/badge/maintainer-Ian%20Richardson%20%40iantrich-blue.svg?style=for-the-badge
+[releases-shield]: https://img.shields.io/github/release/custom-components/gpodder.svg?style=for-the-badge
+[releases]: https://github.com/custom-components/gpodder/releases
