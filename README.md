@@ -60,7 +60,7 @@ Key | Type | Required | Description
 Key | Type | Required | Default | Description
 -- | -- | -- | -- | --
 `enabled` | `boolean` | `False` | `True` | Boolean to enable/disable the platform.
-`name` | `string` | `False` | `blueprint` | Custom name for the entity.
+`name` | `string` | `False` | `gPodder` | Custom name for the entity.
 
 ## Contributions are welcome!
 
