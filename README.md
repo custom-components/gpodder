@@ -49,11 +49,12 @@ gpodder:
 
 ## Configuration options
 
-Key | Type | Required | Description
--- | -- | -- | --
-`username` | `string` | `True` | gPodder username
-`password` | `string` | `True` | gPodder password
-`sensor` | `list` | `False` | Configuration for the `sensor` platform.
+Key | Type | Required | Default | Description
+-- | -- | -- | -- | --
+`username` | `string` | `True` | `None` | gPodder username
+`password` | `string` | `True` | `None` | gPodder password
+`device` | `string` | `False` | `homeassistant` | gPodder device identifier
+`sensor` | `list` | `False` | `- name: gPodder` | Configuration for the `sensor` platform.
 
 ### Configuration options for `sensor` list
 

@@ -1,7 +1,7 @@
 """Sensor platform for gPodder."""
 from homeassistant.helpers.entity import Entity
 from . import update_data
-from .const import DOMAIN_DATA, ICON
+from .const import DOMAIN_DATA, ICON, CONF_NAME, CONF_DEVICE
 
 
 async def async_setup_platform(
@@ -18,25 +18,20 @@ class GpodderSensor(Entity):
         self.hass = hass
         self.attr = {}
         self._state = None
-        self._name = config["name"]
+        self._name = config[CONF_NAME]
+        self._device = config[CONF_DEVICE]
 
     async def async_update(self):
         """Update the sensor."""
         # Send update "signal" to the component
-        await update_data(self.hass)
+        await update_data(self.hass, self._device)
 
         # Get new data (if any)
         updated = self.hass.data[DOMAIN_DATA]
-
-        # Check the data and update the value.
-        if updated.get("title") is None:
-            self._state = self._status
-        else:
-            self._state = updated.get("title")
+        self._state = len(updated)
 
         # Set/update attributes
-        self.attr["user_id"] = updated.get("userId")
-        self.attr["completed"] = updated.get("completed")
+        self.attr["subscriptions"] = updated
 
     @property
     def name(self):

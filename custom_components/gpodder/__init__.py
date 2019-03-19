@@ -7,7 +7,6 @@ https://github.com/custom-components/gpodder
 import os
 from datetime import timedelta
 import logging
-import requests
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers import discovery
@@ -21,12 +20,14 @@ from .const import (
     STARTUP,
     URL,
     VERSION,
-    CONF_BINARY_SENSOR,
     CONF_SENSOR,
-    CONF_SWITCH,
     CONF_ENABLED,
     CONF_NAME,
+    CONF_USERNAME,
+    CONF_PASSWORD,
+    CONF_DEVICE,
     DEAFULT_NAME,
+    REQUIREMENTS
 )
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=30)
@@ -37,6 +38,7 @@ SENSOR_SCHEMA = vol.Schema(
     {
         vol.Optional(CONF_ENABLED, default=True): cv.boolean,
         vol.Optional(CONF_NAME, default=DEAFULT_NAME): cv.string,
+        vol.Optional(CONF_DEVICE, default="homeassistant"): cv.string,
     }
 )
 
@@ -44,7 +46,9 @@ CONFIG_SCHEMA = vol.Schema(
     {
         DOMAIN: vol.Schema(
             {
-                vol.Optional(CONF_SENSOR): vol.All(cv.ensure_list, [SENSOR_SCHEMA]),
+                vol.Required(CONF_USERNAME): cv.string,
+                vol.Required(CONF_PASSWORD): cv.string,
+                vol.Optional(CONF_SENSOR, default=[{}]): vol.All(cv.ensure_list, [SENSOR_SCHEMA]),
             }
         )
     },
@@ -54,7 +58,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 async def async_setup(hass, config):
     """Set up this component."""
-
+    from mygpoclient import api
     # Print startup message
     startup = STARTUP.format(name=DOMAIN, version=VERSION, issueurl=ISSUE_URL)
     _LOGGER.info(startup)
@@ -66,19 +70,22 @@ async def async_setup(hass, config):
 
     # Create DATA dict
     hass.data[DOMAIN_DATA] = {}
+    hass.data[DOMAIN] = {}
+    component_config = config[DOMAIN]
+
+    # Create gPodder client
+    hass.data[DOMAIN]["client"] = api.MygPodderClient(component_config[CONF_USERNAME], component_config[CONF_PASSWORD])
 
     # Load platforms
     for platform in PLATFORMS:
-        # Get platform spesific configuration
-        platform_config = config[DOMAIN].get(platform, {})
+        # Get platform specific configuration
+        platform_config = component_config.get(platform, {})
 
-        # If platform is not enabled, skip.
         if not platform_config:
             continue
 
         for entry in platform_config:
             entry_config = entry
-            _LOGGER.critical(entry_config)
 
             # If entry is not enabled, skip.
             if not entry_config[CONF_ENABLED]:
@@ -93,19 +100,16 @@ async def async_setup(hass, config):
 
 
 @Throttle(MIN_TIME_BETWEEN_UPDATES)
-async def update_data(hass):
+async def update_data(hass, device):
     """Update data."""
-    # This is where the main logic to update platform data goes.
     try:
-        request = requests.get(URL)
-        jsondata = request.json()
-        hass.data[DOMAIN_DATA] = jsondata
+        hass.data[DOMAIN_DATA] = hass.data[DOMAIN]["client"].get_subscriptions(device)
     except Exception as error:  # pylint: disable=broad-except
         _LOGGER.error("Could not update data - %s", error)
 
 
 async def check_files(hass):
-    """Retrun bool that indicatoes if all files are present."""
+    """Return bool that indicates if all files are present."""
     # Verify that the user downloaded all files.
     base = "{}/custom_components/{}/".format(hass.config.path(), DOMAIN)
     missing = []

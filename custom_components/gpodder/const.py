@@ -1,4 +1,4 @@
-"""Conststants for gPodder."""
+"""Constants for gPodder."""
 # Base component constants
 DOMAIN = "gpodder"
 DOMAIN_DATA = "{}_data".format(DOMAIN)
@@ -25,10 +25,12 @@ URL = "https://jsonplaceholder.typicode.com/todos/1"
 ICON = "mdi:headphones"
 
 # Configuration
+CONF_ENABLED = "enabled"
 CONF_SENSOR = "sensor"
 CONF_NAME = "name"
 CONF_USERNAME = "username"
 CONF_PASSWORD = "password"
+CONF_DEVICE = "device"
 
 # Defaults
 DEAFULT_NAME = DOMAIN
