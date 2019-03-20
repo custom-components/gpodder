@@ -103,9 +103,63 @@ async def async_setup(hass, config):
 async def update_data(hass, device):
     """Update data."""
     try:
-        hass.data[DOMAIN_DATA] = hass.data[DOMAIN]["client"].get_subscriptions(device)
+        urls = hass.data[DOMAIN]["client"].get_subscriptions(device)
+        hass.data[DOMAIN_DATA] = update_using_feedservice(urls)
+
     except Exception as error:  # pylint: disable=broad-except
         _LOGGER.error("Could not update data - %s", error)
+
+
+def parse_entry(entry):
+    download_url = entry["enclosures"][0]["url"]
+    return {
+        "title": entry["title"],
+        "description": entry.get("description", ""),
+        "url": download_url,
+        "mime_type": entry["enclosures"][0]["mime_type"],
+        "guid": entry.get("guid", download_url),
+        "link": entry.get("link", ""),
+        "published": entry.get("published", 0),
+        "total_time": entry.get("total_time", 0),
+    }
+
+
+def update_using_feedservice(urls):
+    import podcastparser
+    from urllib.request import urlopen
+
+    podcasts = []
+
+    for url in urls:
+        feed = podcastparser.parse(url, urlopen(url), 5)
+        if feed is None:
+            _LOGGER.info("Feed not updated: %s", url)
+            continue
+
+        # Handle permanent redirects
+        if feed.get("new_location", False):
+            new_url = feed["new_location"]
+            _LOGGER.info("Redirect %s => %s", url, new_url)
+            url = new_url
+
+        # Error handling
+        if feed.get("errors", False):
+            _LOGGER.error("Error parsing feed: %s", repr(feed["errors"]))
+            continue
+
+        # Update per-podcast metadata
+        podcast = {
+            "title": feed.get("title", ""),
+            "link": feed.get("link", url),
+            "description": feed.get("description", ""),
+            "cover_url": feed.get("logo", ""),
+            "episodes": [parse_entry(entry) for entry in feed["episodes"]],
+        }
+
+        podcasts.append(podcast)
+
+    _LOGGER.info(podcasts)
+    return podcasts
 
 
 async def check_files(hass):
