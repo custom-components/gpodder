@@ -5,7 +5,7 @@ DOMAIN_DATA = "{}_data".format(DOMAIN)
 VERSION = "1.0.0"
 PLATFORMS = ["sensor"]
 REQUIRED_FILES = ["const.py", "sensor.py"]
-REQUIREMENTS = ['mygpoclient==1.8']
+REQUIREMENTS = ["mygpoclient==1.8", "feedparser==5.2.1"]
 ISSUE_URL = "https://github.com/custom-components/gpodder/issues"
 
 STARTUP = """

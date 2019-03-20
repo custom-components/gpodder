@@ -102,10 +102,51 @@ async def async_setup(hass, config):
 @Throttle(MIN_TIME_BETWEEN_UPDATES)
 async def update_data(hass, device):
     """Update data."""
+    import feedparser
+
     try:
-        hass.data[DOMAIN_DATA] = hass.data[DOMAIN]["client"].get_subscriptions(device)
+        urls = hass.data[DOMAIN]["client"].get_subscriptions(device)
+        hass.data[DOMAIN_DATA] = urls
+
+        for url in urls:
+            parsed_podcast = feedparser.parse(url)
+
+            if not parsed_podcast:
+                continue
+
+            feed = parsed_podcast.feed
+
+            podcast = {
+                "url": url,
+                "title": feed.get("title", ""),
+                "summary": feed.get("summary", ""),
+                "image": feed.get("image", {}).get("href", "")
+            }
+
+            _LOGGER.info(podcast)
+
+            parsed_episodes = []
+
+            for i, entry in enumerate(parsed_podcast.get("entries", [])):
+                if i > 5:
+                    break
+                parsed_episodes.append(parse_entry(entry))
+
+            # _LOGGER.info(parsed_episodes)
     except Exception as error:  # pylint: disable=broad-except
         _LOGGER.error("Could not update data - %s", error)
+
+
+def parse_entry(entry):
+    episode = {
+        "title": entry.get("title", ""),
+        "summary": entry.content[0].value,
+        "url": entry.get("media_content", {}),
+        "published": entry.get("published", 0),
+    }
+
+    _LOGGER.info(episode)
+    return episode
 
 
 async def check_files(hass):
