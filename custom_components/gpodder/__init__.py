@@ -102,51 +102,64 @@ async def async_setup(hass, config):
 @Throttle(MIN_TIME_BETWEEN_UPDATES)
 async def update_data(hass, device):
     """Update data."""
-    import feedparser
-
     try:
         urls = hass.data[DOMAIN]["client"].get_subscriptions(device)
-        hass.data[DOMAIN_DATA] = urls
+        hass.data[DOMAIN_DATA] = update_using_feedservice(urls)
 
-        for url in urls:
-            parsed_podcast = feedparser.parse(url)
-
-            if not parsed_podcast:
-                continue
-
-            feed = parsed_podcast.feed
-
-            podcast = {
-                "url": url,
-                "title": feed.get("title", ""),
-                "summary": feed.get("summary", ""),
-                "image": feed.get("image", {}).get("href", "")
-            }
-
-            _LOGGER.info(podcast)
-
-            parsed_episodes = []
-
-            for i, entry in enumerate(parsed_podcast.get("entries", [])):
-                if i > 5:
-                    break
-                parsed_episodes.append(parse_entry(entry))
-
-            # _LOGGER.info(parsed_episodes)
     except Exception as error:  # pylint: disable=broad-except
         _LOGGER.error("Could not update data - %s", error)
 
 
 def parse_entry(entry):
-    episode = {
-        "title": entry.get("title", ""),
-        "summary": entry.content[0].value,
-        "url": entry.get("media_content", {}),
+    download_url = entry["enclosures"][0]["url"]
+    return {
+        "title": entry["title"],
+        "description": entry.get("description", ""),
+        "url": download_url,
+        "mime_type": entry["enclosures"][0]["mime_type"],
+        "guid": entry.get("guid", download_url),
+        "link": entry.get("link", ""),
         "published": entry.get("published", 0),
+        "total_time": entry.get("total_time", 0),
     }
 
-    _LOGGER.info(episode)
-    return episode
+
+def update_using_feedservice(urls):
+    import podcastparser
+    from urllib.request import urlopen
+
+    podcasts = []
+
+    for url in urls:
+        feed = podcastparser.parse(url, urlopen(url), 5)
+        if feed is None:
+            _LOGGER.info("Feed not updated: %s", url)
+            continue
+
+        # Handle permanent redirects
+        if feed.get("new_location", False):
+            new_url = feed["new_location"]
+            _LOGGER.info("Redirect %s => %s", url, new_url)
+            url = new_url
+
+        # Error handling
+        if feed.get("errors", False):
+            _LOGGER.error("Error parsing feed: %s", repr(feed["errors"]))
+            continue
+
+        # Update per-podcast metadata
+        podcast = {
+            "title": feed.get("title", ""),
+            "link": feed.get("link", url),
+            "description": feed.get("description", ""),
+            "cover_url": feed.get("logo", ""),
+            "episodes": [parse_entry(entry) for entry in feed["episodes"]],
+        }
+
+        podcasts.append(podcast)
+
+    _LOGGER.info(podcasts)
+    return podcasts
 
 
 async def check_files(hass):
