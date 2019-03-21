@@ -31,7 +31,7 @@ class GpodderSensor(Entity):
         self._state = len(updated)
 
         # Set/update attributes
-        self.attr["subscriptions"] = updated
+        self.attr["podcasts"] = updated
 
     @property
     def name(self):
