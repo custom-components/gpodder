@@ -19,6 +19,10 @@ Platform | Description
 -- | --
 `sensor` | Show info from gPodder API and expose services.
 
+## Pre-Installation
+1. Setup an account for [gPodder][gpodder]
+2. Subscribe to your favorite podcasts (I hope to add subscription management from the component in the future)
+
 ## Installation
 
 1. Using you tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
@@ -27,6 +31,7 @@ Platform | Description
 4. Download _all_ the files from the `custom_components/gpodder/` directory (folder) in this repository.
 5. Place the files you downloaded in the new directory (folder) you created.
 6. Add `gpodder:` to your HA configuration.
+7. Use the [podcast-card](https://github.com/custom-cards/podcast-card) to play podcasts to your devices.
 
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 
