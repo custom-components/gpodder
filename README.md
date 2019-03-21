@@ -22,6 +22,7 @@ Platform | Description
 ## Pre-Installation
 1. Setup an account for [gPodder][gpodder]
 2. Subscribe to your favorite podcasts (I hope to add subscription management from the component in the future)
+3. Make sure your subscriptions are being synced to the device you intend to use in Home Assistant.
 
 ## Installation
 
