@@ -33,4 +33,4 @@ CONF_PASSWORD = "password"
 CONF_DEVICE = "device"
 
 # Defaults
-DEAFULT_NAME = DOMAIN
+DEFAULT_NAME = DOMAIN
