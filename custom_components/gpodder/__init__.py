@@ -158,7 +158,6 @@ def update_using_feedservice(urls):
 
         podcasts.append(podcast)
 
-    _LOGGER.info(podcasts)
     return podcasts
 
 
