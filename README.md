@@ -60,8 +60,7 @@ Key | Type | Required | Default | Description
 -- | -- | -- | -- | --
 `username` | `string` | `True` | `None` | gPodder username
 `password` | `string` | `True` | `None` | gPodder password
-`sensor` | `list` | `False` | `- name: gPodder`| Configuration for the `sensor` platform.
-                              '- device: homeassistant |Device identifier fot the 'sensor' platform.
+`sensor` | `list` | `False` | `- name: gPodder`<br>`- device: homeassistant` | Configuration for the `sensor` platform.
                               
 ### Configuration options for `sensor` list
 
