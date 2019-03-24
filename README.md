@@ -51,6 +51,7 @@ gpodder:
   sensor:
     - enabled: true
       name: My custom name
+      device: gPodder device identifier
 ```
 
 ## Configuration options
@@ -59,15 +60,15 @@ Key | Type | Required | Default | Description
 -- | -- | -- | -- | --
 `username` | `string` | `True` | `None` | gPodder username
 `password` | `string` | `True` | `None` | gPodder password
-`device` | `string` | `False` | `homeassistant` | gPodder device identifier
-`sensor` | `list` | `False` | `- name: gPodder` | Configuration for the `sensor` platform.
-
+`sensor` | `list` | `False` | `- name: gPodder`<br>`- device: homeassistant` | Configuration for the `sensor` platform.
+                              
 ### Configuration options for `sensor` list
 
 Key | Type | Required | Default | Description
 -- | -- | -- | -- | --
 `enabled` | `boolean` | `False` | `True` | Boolean to enable/disable the platform.
 `name` | `string` | `False` | `gPodder` | Custom name for the entity.
+`device` | `string` | `False` | `homeassistant` | gPodder device identifier
 
 ## Contributions are welcome!
 
