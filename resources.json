@@ -1,5 +1,5 @@
 [
-  "https://raw.githubusercontent.com/custom-components/blueprint/master/custom_components/gpodder/__init__.py",
   "https://raw.githubusercontent.com/custom-components/blueprint/master/custom_components/gpodder/const.py",
-  "https://raw.githubusercontent.com/custom-components/blueprint/master/custom_components/gpodder/sensor.py"
+  "https://raw.githubusercontent.com/custom-components/blueprint/master/custom_components/gpodder/sensor.py",
+  "https://raw.githubusercontent.com/custom-components/blueprint/master/custom_components/gpodder/manifest.json"
 ]
