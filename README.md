@@ -40,6 +40,7 @@ Using your HA configuration directory (folder) as a starting point you should no
 custom_components/gpodder/__init__.py
 custom_components/gpodder/const.py
 custom_components/gpodder/sensor.py
+custom_components/gpodder/manifest.json
 ```
 
 ## Example configuration.yaml
