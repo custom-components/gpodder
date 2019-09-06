@@ -132,8 +132,7 @@ def update_using_feedservice(urls):
 
     for url in urls:
         try:
-            #feed = podcastparser.parse(url, urlopen(Request(url, headers=REQUEST_HEADERS)), 5)
-            feed = podcastparser.parse(url, urlopen(Request(url)), 5)
+            feed = podcastparser.parse(url, urlopen(Request(url, headers=REQUEST_HEADERS)), 5)
         except Exception as error:  # pylint: disable=broad-except
             _LOGGER.error("Could not update %s - %s", url, error)
             feed = None
