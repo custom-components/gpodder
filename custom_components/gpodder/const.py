@@ -8,6 +8,8 @@ REQUIRED_FILES = ["const.py", "sensor.py"]
 REQUIREMENTS = ["mygpoclient==1.8", "podcastparser==0.6.4"]
 ISSUE_URL = "https://github.com/custom-components/gpodder/issues"
 
+REQUEST_HEADERS = {'User-Agent': 'homeassistant gpodder, report abuse to https://github.com/custom-components/gpodder',}
+
 STARTUP = """
 -------------------------------------------------------------------
 {name}
