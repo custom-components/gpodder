@@ -34,14 +34,6 @@ Platform | Description
 1. Configure gPodder in the UI
 1. Use the [podcast-card](https://github.com/custom-cards/podcast-card) to play podcasts to your devices.
 
-Using your HA configuration directory (folder) as a starting point you should now also have this:
-
-```text
-custom_components/gpodder/__init__.py
-custom_components/gpodder/const.py
-custom_components/gpodder/sensor.py
-custom_components/gpodder/manifest.json
-```
 
 ## Configuration is done in the UI
 
