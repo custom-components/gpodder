@@ -26,7 +26,7 @@ lint: ## Run linters
 	pre-commit install-hooks --config .github/pre-commit-config.yaml;
 	pre-commit run --hook-stage manual --all-files --config .github/pre-commit-config.yaml;
 
-update: ## Pull master from hacs/integration
+update: ## Pull master from custom-components/gpodder
 	git pull upstream master;
 
 homeassistant-install: ## Install the latest dev version of Home Assistant
