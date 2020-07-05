@@ -2,7 +2,7 @@
 # Base component constants
 DOMAIN = "gpodder"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "1.1.0"
+VERSION = "master"
 PLATFORMS = ["sensor"]
 REQUIRED_FILES = ["const.py", "sensor.py"]
 
