@@ -18,7 +18,6 @@ jobs:
           - pyupgrade
           - black
           - codespell
-          - check-executables-have-shebangs
           - check-json
           - requirements-txt-fixer
           - check-ast
