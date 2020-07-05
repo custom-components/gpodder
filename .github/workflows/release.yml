@@ -14,7 +14,7 @@ jobs:
 
       - name: "Set version numbmer"
         run: |
-          sed -i '/VERSION = /c\VERSION = "${{ github.ref }}"' ./custom_components/hacs/const.py
+          sed -i '/VERSION = /c\VERSION = "${{ github.ref }}"' ./custom_components/gpodder/const.py
           sed -i 's|refs/heads/||' ./custom_components/gpodder/const.py
           sed -i 's|refs/tags/||' ./custom_components/gpodder/const.py
 
