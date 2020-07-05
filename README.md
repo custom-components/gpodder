@@ -2,7 +2,7 @@
 
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
-[![custom_updater][customupdaterbadge]][customupdater]
+[![hacs][hacsbadge]][hacs]
 [![License][license-shield]](LICENSE.md)
 
 ![Project Maintenance][maintenance-shield]
@@ -62,7 +62,7 @@ Key | Type | Required | Default | Description
 `username` | `string` | `True` | `None` | gPodder username
 `password` | `string` | `True` | `None` | gPodder password
 `sensor` | `list` | `False` | `- name: gPodder`<br>&nbsp;&nbsp;&nbsp;&nbsp;`device: homeassistant` | Configuration for the `sensor` platform.
-                              
+
 ### Configuration options for `sensor` list
 
 Key | Type | Required | Default | Description
@@ -81,8 +81,8 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-blue.svg?style=for-the-badge
 [commits-shield]: https://img.shields.io/github/commit-activity/y/custom-components/gpodder.svg?style=for-the-badge
 [commits]: https://github.com/custom-components/gpodder/commits/master
-[customupdater]: https://github.com/custom-components/custom_updater
-[customupdaterbadge]: https://img.shields.io/badge/custom__updater-true-success.svg?style=for-the-badge
+[hacs]: https://github.com/hacs/integration
+[hacsbadge]: https://img.shields.io/badge/hacs-true-success.svg?style=for-the-badge
 [discord]: https://discord.gg/Qa5fW2R
 [discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
