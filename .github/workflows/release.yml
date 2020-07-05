@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release_zip_file:
+    name: Prepare release asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v1
+
+      - name: "Set version numbmer"
+        run: |
+          sed -i '/VERSION = /c\VERSION = "${{ github.ref }}"' ./custom_components/gpodder/const.py
+          sed -i 's|refs/heads/||' ./custom_components/gpodder/const.py
+          sed -i 's|refs/tags/||' ./custom_components/gpodder/const.py
+
+      - name: ZIP gpodder dir
+        run: |
+          cd ./custom_components/gpodder
+          zip gpodder.zip -r ./
+      - name: Upload zip to release
+        uses: svenstaro/upload-release-action@v1-release
+
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./custom_components/gpodder/gpodder.zip
+          asset_name: gpodder.zip
+          tag: ${{ github.ref }}
+          overwrite: true
