@@ -30,7 +30,7 @@ class GpodderEntity(entity.Entity):
             "identifiers": {(DOMAIN, self.unique_id)},
             "name": CONF_NAME,
             "model": VERSION,
-            "manufacturer": CONF_NAME,
+            "manufacturer": DOMAIN,
         }
 
     @property
