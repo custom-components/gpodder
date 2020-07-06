@@ -23,7 +23,7 @@ from custom_components.gpodder.const import (
     STARTUP,
 )
 
-SCAN_INTERVAL = timedelta(minutes=30)
+UPDATE_INTERVAL = timedelta(minutes=30)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -126,7 +126,7 @@ class GpodderDataUpdateCoordinator(DataUpdateCoordinator):
         self.api = api.MygPodderClient(username, password)
         self.device = device
 
-        super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL)
+        super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=UPDATE_INTERVAL)
 
     async def _async_update_data(self):
         """Update data."""
