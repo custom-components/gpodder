@@ -1,54 +1,28 @@
 """Sensor platform for gPodder."""
-from homeassistant.helpers.entity import Entity
-from custom_components.gpodder import update_data
-from custom_components.gpodder.const import DOMAIN_DATA, ICON, CONF_NAME, CONF_DEVICE
+from custom_components.gpodder.entity import GpodderEntity
+from custom_components.gpodder.const import DOMAIN
 
 
-def setup_platform(
-    hass, config, add_entities, discovery_info=None
-):  # pylint: disable=unused-argument
+async def async_setup_entry(hass, entry, async_add_devices):
     """Setup sensor platform."""
-    add_entities([GpodderSensor(hass, discovery_info)], True)
+    coordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_devices([GpodderSensor(coordinator, entry)])
 
 
-class GpodderSensor(Entity):
+class GpodderSensor(GpodderEntity):
     """gPodder Sensor class."""
-
-    def __init__(self, hass, config):
-        self.hass = hass
-        self.attr = {}
-        self._state = None
-        self._name = config[CONF_NAME]
-        self._device = config[CONF_DEVICE]
-
-    def update(self):
-        """Update the sensor."""
-        # Send update "signal" to the component
-        update_data(self.hass, self._device)
-
-        # Get new data (if any)
-        updated = self.hass.data[DOMAIN_DATA]
-        self._state = len(updated)
-
-        # Set/update attributes
-        self.attr["podcasts"] = updated
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return self.coordinator.name
 
     @property
     def state(self):
         """Return the state of the sensor."""
-        return self._state
-
-    @property
-    def icon(self):
-        """Return the icon of the sensor."""
-        return ICON
+        return len(self.coordinator.data)
 
     @property
     def device_state_attributes(self):
         """Return the state attributes."""
-        return self.attr
+        return {"podcasts": self.coordinator.data}

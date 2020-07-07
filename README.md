@@ -31,45 +31,11 @@ Platform | Description
 1. In the `custom_components` directory (folder) create a new folder called `gpodder`.
 1. Download the `gpodder.zip` the file from the latest release <https://github.com/custom-components/gpodder/releases/latest>
 1. Uzip the file and place the files files you downloaded in the new directory (folder) you created.
-1. Add `gpodder:` to your HA configuration.
+1. Configure gPodder in the UI
 1. Use the [podcast-card](https://github.com/custom-cards/podcast-card) to play podcasts to your devices.
 
-Using your HA configuration directory (folder) as a starting point you should now also have this:
 
-```text
-custom_components/gpodder/__init__.py
-custom_components/gpodder/const.py
-custom_components/gpodder/sensor.py
-custom_components/gpodder/manifest.json
-```
-
-## Example configuration.yaml
-
-```yaml
-gpodder:
-  username: iantrich
-  password: password
-  sensor:
-    - enabled: true
-      name: My custom name
-      device: gPodder device identifier
-```
-
-## Configuration options
-
-Key | Type | Required | Default | Description
--- | -- | -- | -- | --
-`username` | `string` | `True` | `None` | gPodder username
-`password` | `string` | `True` | `None` | gPodder password
-`sensor` | `list` | `False` | `- name: gPodder`<br>&nbsp;&nbsp;&nbsp;&nbsp;`device: homeassistant` | Configuration for the `sensor` platform.
-
-### Configuration options for `sensor` list
-
-Key | Type | Required | Default | Description
--- | -- | -- | -- | --
-`enabled` | `boolean` | `False` | `True` | Boolean to enable/disable the platform.
-`name` | `string` | `False` | `gPodder` | Custom name for the entity.
-`device` | `string` | `False` | `homeassistant` | gPodder device identifier
+## Configuration is done in the UI
 
 ## Contributions are welcome!
 
