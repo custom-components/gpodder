@@ -31,6 +31,8 @@ CONF_NAME = "name"
 CONF_USERNAME = "username"
 CONF_PASSWORD = "password"
 CONF_DEVICE = "device"
+CONF_BASE_URL = "base_url"
 
 # Defaults
 DEFAULT_NAME = DOMAIN
+DEFAULT_BASE_URL = "https://gpodder.net"

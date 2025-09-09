@@ -8,7 +8,8 @@
                     "username": "Username",
                     "password": "Password",
                     "device": "Device",
-                    "name": "Name"
+                    "name": "Name",
+                    "base_url": "Server URL (e.g., https://gpodder.net)"
                 }
             }
         }

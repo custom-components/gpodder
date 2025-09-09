@@ -11,6 +11,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 import podcastparser
 from homeassistant.exceptions import ConfigEntryNotReady
 from mygpoclient import api
+from urllib.parse import urlparse
 
 from custom_components.gpodder.const import (
     CONF_DEVICE,
@@ -21,6 +22,8 @@ from custom_components.gpodder.const import (
     DOMAIN,
     REQUEST_HEADERS,
     STARTUP,
+    CONF_BASE_URL,
+    DEFAULT_BASE_URL,
 )
 
 UPDATE_INTERVAL = timedelta(minutes=30)
@@ -43,8 +46,11 @@ async def async_setup_entry(hass, entry):
     password = entry.data.get(CONF_PASSWORD)
     device = entry.data.get(CONF_DEVICE)
     name = entry.data.get(CONF_NAME)
+    base_url = entry.data.get(CONF_BASE_URL, DEFAULT_BASE_URL)
 
-    coordinator = GpodderDataUpdateCoordinator(hass, username, password, device, name)
+    coordinator = GpodderDataUpdateCoordinator(
+        hass, username, password, device, name, base_url
+    )
     await coordinator.async_refresh()
 
     if not coordinator.last_update_success:
@@ -119,11 +125,21 @@ def update_using_feedservice(urls):
 class GpodderDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
-    def __init__(self, hass, username, password, device, name):
+    def __init__(self, hass, username, password, device, name, base_url):
         """Initialize."""
         self.hass = hass
         self.name = name
-        self.api = api.MygPodderClient(username, password)
+        # Parse base_url to derive host and SSL settings
+        try:
+            if "://" not in base_url:
+                base_url = f"https://{base_url}"
+            parsed = urlparse(base_url)
+            host = parsed.netloc or parsed.path
+            use_ssl = (parsed.scheme or "https").lower() != "http"
+            # Construct client with custom server and SSL preference
+            self.api = api.MygPodderClient(username, password, host, use_ssl)
+        except Exception:  # Fallback to default behavior if parsing fails
+            self.api = api.MygPodderClient(username, password)
         self.device = device
 
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=UPDATE_INTERVAL)
