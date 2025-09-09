@@ -37,6 +37,8 @@ Platform | Description
 
 ## Configuration is done in the UI
 
+You can configure a custom gPodder server URL in the integration setup (e.g., https://gpodder.net or your self-hosted instance).
+
 ## Contributions are welcome!
 
 If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)

@@ -7,7 +7,9 @@ from custom_components.gpodder.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
     CONF_DEVICE,
+    CONF_BASE_URL,
     DEFAULT_NAME,
+    DEFAULT_BASE_URL,
     DOMAIN,
 )
 
@@ -42,6 +44,7 @@ class GpodderFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_PASSWORD): str,
                     vol.Required(CONF_DEVICE): str,
                     vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
+                    vol.Required(CONF_BASE_URL, default=DEFAULT_BASE_URL): str,
                 }
             ),
             errors=self._errors,
