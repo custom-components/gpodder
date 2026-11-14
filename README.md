@@ -1,3 +1,5 @@
+Archived: Recommend switching to https://www.music-assistant.io/
+
 # 🎧 gPodder
 
 [![GitHub Release][releases-shield]][releases]
